@@ -1,0 +1,13 @@
+// src/types/auth.ts
+export interface User {
+    id: string;
+    username: string;
+    email?: string;
+    name?: string;
+  }
+  
+  export interface LoginResponse {
+    user: User;
+    token: string;
+  }
+  

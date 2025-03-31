@@ -1,4 +1,3 @@
-// src/pages/ProductDetails.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -42,7 +41,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId, onBack }) =>
       try {
         const response = await axios.get(`https://dummyjson.com/products/${id}`);
         setProduct(response.data);
-        // ... rest of the code ...
       } catch (error) {
         console.error('Error fetching product:', error);
         setLoading(false);
@@ -79,7 +77,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId, onBack }) =>
       quantity: quantity,
       image: product.thumbnail
     });
-    // Navigate to checkout
     setActiveItem('checkout');
 
 
@@ -87,7 +84,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId, onBack }) =>
   };
 
   const handleBuyNow = () => {
-    // Implement buy now functionality
     console.log(`Buying ${quantity} of ${product.title}`);
   };
 
@@ -132,7 +128,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId, onBack }) =>
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Image Gallery */}
         <div className="space-y-4">
           <div className="relative">
             <img
@@ -167,7 +162,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId, onBack }) =>
           </div>
         </div>
 
-        {/* Product Information */}
         <div className="space-y-6">
           <div>
             <div className="flex justify-between items-start">
@@ -284,11 +278,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId, onBack }) =>
         </div>
       </div>
 
-      {/* Comments Section */}
       <div className="mt-12 border-t pt-8">
         <h3 className="text-2xl font-bold mb-6">Customer Reviews</h3>
 
-        {/* Add Comment */}
         <div className="bg-gray-50 p-4 rounded-lg mb-6">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-gray-600">Your Rating:</span>
@@ -326,7 +318,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId, onBack }) =>
           </div>
         </div>
 
-        {/* Comments List */}
         <div className="space-y-4">
           {comments.map((comment) => (
             <div key={comment.id} className="border-b pb-4">

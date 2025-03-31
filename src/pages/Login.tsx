@@ -45,7 +45,6 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50/50">
-      {/* Back to Home Link */}
       <Link to="/" className="fixed top-4 left-4 text-gray-600 flex items-center gap-2 hover:text-gray-900">
         <span>← Back to Home</span>
       </Link>
@@ -53,7 +52,6 @@ const Login: React.FC = () => {
       <div className="flex min-h-screen flex-col items-center justify-center px-6 py-12 lg:px-8">
         <div className="bg-white w-full max-w-md rounded-lg shadow-sm border border-gray-100 p-8">
            
-          {/* Welcome Text */}
           <div className="text-center mb-8">
             <h2 className="text-2xl font-semibold text-gray-900">Welcome back!</h2>
             <p className="text-gray-600 text-sm mt-1">
@@ -62,7 +60,6 @@ const Login: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email/Username Field */}
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
                 Email

@@ -1,4 +1,3 @@
-// src/pages/Products.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -85,7 +84,6 @@ const Products = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex gap-8">
-        {/* Filters Sidebar */}
         <div className="w-64 flex-shrink-0">
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <h2 className="text-xl font-semibold mb-4">Filters</h2>
@@ -117,7 +115,6 @@ const Products = () => {
           </div>
         </div>
 
-        {/* Products Grid */}
         <div className="flex-1">
           <div className="mb-8">
             <input

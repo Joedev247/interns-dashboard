@@ -81,9 +81,7 @@ const TestimonialAndFAQ = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-12">
-      {/* Testimonials Section */}
       <div className="mb-20">
-        {/* Google Reviews Header */}
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2 mb-2">
             <img 
@@ -106,7 +104,6 @@ const TestimonialAndFAQ = () => {
           <p className="text-gray-600 text-center">Read trusted reviews from our customers</p>
         </div>
 
-        {/* Testimonials Carousel */}
         <div className="relative">
           <div className="overflow-hidden">
             <div 
@@ -145,7 +142,6 @@ const TestimonialAndFAQ = () => {
             </div>
           </div>
           
-          {/* Navigation Arrows */}
           <button 
             onClick={prevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center"
@@ -162,7 +158,6 @@ const TestimonialAndFAQ = () => {
           </button>
         </div>
 
-        {/* Carousel Dots */}
         <div className="flex justify-center gap-2 mt-6">
           {[...Array(totalSlides)].map((_, i) => (
             <button
@@ -176,7 +171,6 @@ const TestimonialAndFAQ = () => {
         </div>
       </div>
 
-      {/* FAQ Section */}
       <div className="mt-20">
         <h2 className="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">

@@ -20,25 +20,25 @@ const Footer: React.FC = () => {
 
   const footerLinks = {
     company: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Store Locations', href: '/stores' },
-      { name: 'Our Blog', href: '/blog' },
-      { name: 'Press & Media', href: '/press' }
+      { name: 'About Us', href: '/' },
+      { name: 'Careers', href: '/' },
+      { name: 'Store Locations', href: '/' },
+      { name: 'Our Blog', href: '/' },
+      { name: 'Press & Media', href: '/' }
     ],
     customerService: [
-      { name: 'Contact Us', href: '/contact' },
-      { name: 'Shipping & Returns', href: '/shipping' },
-      { name: 'FAQ', href: '/faq' },
-      { name: 'Size Guide', href: '/size-guide' },
-      { name: 'Track Order', href: '/track-order' }
+      { name: 'Contact Us', href: '/' },
+      { name: 'Shipping & Returns', href: '/' },
+      { name: 'FAQ', href: '/' },
+      { name: 'Size Guide', href: '/' },
+      { name: 'Track Order', href: '/' }
     ],
     quickLinks: [
-      { name: 'New Arrivals', href: '/new-arrivals' },
-      { name: 'Best Sellers', href: '/best-sellers' },
-      { name: 'Sale', href: '/sale' },
-      { name: 'Gift Cards', href: '/gift-cards' },
-      { name: 'Rewards Program', href: '/rewards' }
+      { name: 'New Arrivals', href: '/' },
+      { name: 'Best Sellers', href: '/' },
+      { name: 'Sale', href: '/' },
+      { name: 'Gift Cards', href: '/' },
+      { name: 'Rewards Program', href: '/' }
     ]
   };
 
@@ -64,7 +64,6 @@ const Footer: React.FC = () => {
 
   return (
     <footer>
-      {/* Features Section - White Background */}
       <div className="bg-white border-y border-gray-200">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -85,7 +84,6 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Newsletter Section - White Background */}
       <div className="bg-white">
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto text-center">
@@ -112,12 +110,9 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Footer - Dark Background */}
       <div className="bg-gray-900">
-        {/* Main Footer Content */}
         <div className="container mx-auto px-4 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {/* Brand Section */}
             <div>
               <div className="flex items-center space-x-2 mb-6">
                 <div className="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center">
@@ -144,7 +139,6 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            {/* Company Links */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Company</h4>
               <ul className="space-y-4">
@@ -161,7 +155,6 @@ const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Customer Service */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Customer Service</h4>
               <ul className="space-y-4">
@@ -178,7 +171,6 @@ const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Contact Information */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Contact Us</h4>
               <ul className="space-y-6">
@@ -200,7 +192,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="border-t border-gray-800">
           <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
@@ -214,13 +205,13 @@ const Footer: React.FC = () => {
                 </p>
               </div>
               <div className="flex items-center space-x-6">
-                <Link to="/privacy" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
+                <Link to="/" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
                   Privacy Policy
                 </Link>
-                <Link to="/terms" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
+                <Link to="" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
                   Terms of Service
                 </Link>
-                <Link to="/sitemap" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
+                <Link to="/" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
                   Sitemap
                 </Link>
               </div>

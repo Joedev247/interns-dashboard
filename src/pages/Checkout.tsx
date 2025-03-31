@@ -1,4 +1,3 @@
-// src/pages/Checkout.tsx
 import React from 'react';
 import { useCart } from '../contexts/CartContext';
 import { Trash2, ArrowRight } from 'lucide-react';
@@ -50,7 +49,6 @@ const Checkout: React.FC = () => {
             ))}
           </div>
 
-          {/* Order Summary */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
             <div className="space-y-2">

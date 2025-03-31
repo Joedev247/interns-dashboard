@@ -1,4 +1,3 @@
-// src/pages/Dashboard.tsx
 import React, { useState, useEffect } from 'react';
 import { 
   LineChart, Line, ResponsiveContainer, 
@@ -44,27 +43,22 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch product data
         const productResponse = await fetch('https://dummyjson.com/products');
         const productData = await productResponse.json();
         const totalProducts = productData.total;
 
-        // Fetch post data
         const postResponse = await fetch('https://dummyjson.com/posts');
         const postData = await postResponse.json();
         const totalPosts = postData.total;
 
-        // Fetch comment data
         const commentResponse = await fetch('https://dummyjson.com/comments');
         const commentData = await commentResponse.json();
         const totalComments = commentData.total;
 
-        // Fetch user data
         const userResponse = await fetch('https://dummyjson.com/users');
         const userData = await userResponse.json();
         const totalUsers = userData.total;
 
-        // Prepare stats
         const statsData: Stat[] = [
           { 
             title: 'Total Products', 
@@ -96,7 +90,6 @@ const Dashboard = () => {
           }
         ];
 
-        // Prepare revenue data
         const revenueDataPoints: RevenueDataPoint[] = [
           { name: 'Jan', value: 4000 },
           { name: 'Feb', value: 3000 },
@@ -106,7 +99,6 @@ const Dashboard = () => {
           { name: 'Jun', value: 2390 }
         ];
 
-        // Prepare category data
         const categoryDataPoints: CategoryDataPoint[] = [
           { name: 'Electronics', value: productData.products.filter((product: any) => product.category === 'smartphones').length },
           { name: 'Apparel', value: productData.products.filter((product: any) => product.category === 'womens-dresses').length },
@@ -114,7 +106,6 @@ const Dashboard = () => {
           { name: 'Books', value: productData.products.filter((product: any) => product.category === 'groceries').length }
         ];
 
-        // Prepare activities
         const activitiesData: Activity[] = [
           { 
             icon: <Cpu size={18} />,
@@ -147,7 +138,6 @@ const Dashboard = () => {
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-      {/* Header Section */}
       <div className="mb-8 flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Welcome back, Emily Johnson!</h1>
@@ -155,7 +145,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <div 
@@ -183,9 +172,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Revenue Chart */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-800">Revenue Trend</h3>
@@ -232,7 +219,6 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Category Breakdown */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-800">Category Breakdown</h3>
@@ -268,7 +254,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Recent Activity */}
       <div className="bg-white rounded-xl shadow-sm p-6 mt-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-6">Recent Activity</h3>
         <div className="space-y-6">

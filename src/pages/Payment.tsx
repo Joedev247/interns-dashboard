@@ -1,4 +1,3 @@
-// src/pages/Payment.tsx
 import React, { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { CreditCard, Lock, Calendar, CheckCircle } from 'lucide-react';
@@ -58,7 +57,6 @@ const Payment: React.FC = () => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Simulate payment processing
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
       setIsSuccess(true);
@@ -94,7 +92,6 @@ const Payment: React.FC = () => {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Order Summary */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h2 className="text-xl font-semibold text-gray-800 mb-6">Order Summary</h2>
             <div className="space-y-4">
@@ -125,7 +122,6 @@ const Payment: React.FC = () => {
             </div>
           </div>
 
-          {/* Payment Form */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h2 className="text-xl font-semibold text-gray-800 mb-6">Payment Details</h2>
             <form onSubmit={handleSubmit} className="space-y-6">

@@ -1,15 +1,12 @@
-// src/components/common/ProductCard.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { Product } from '../../types/interfaces';
 
-// Define the props interface
 interface ProductCardProps {
   product: Product;
 }
 
-// Explicitly type the component with the props interface
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
 

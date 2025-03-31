@@ -1,4 +1,3 @@
-// src/components/layout/TopBar.tsx
 import React from 'react';
 
 const TopBar: React.FC = () => (

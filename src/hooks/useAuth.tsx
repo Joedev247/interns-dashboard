@@ -1,4 +1,3 @@
-// src/hooks/useAuth.ts
 import { useState } from 'react';
 import { useAuth as useAuthContext } from '../contexts/AuthContext';
 import api from '../services/api';

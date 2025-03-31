@@ -17,7 +17,6 @@ const HeroSection: React.FC = () => {
     "Exclusive Style"
   ];
 
-  // High-quality luxury/fashion images with shine/glamour
   const slides = [
     {
       image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070",
@@ -37,7 +36,6 @@ const HeroSection: React.FC = () => {
     }
   ];
 
-  // Typing effect
   useEffect(() => {
     const typingSpeed = isDeleting ? 50 : 100;
     const currentText = heroTexts[currentTextIndex];
@@ -63,12 +61,10 @@ const HeroSection: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [currentCharIndex, currentTextIndex, isDeleting]);
 
-  // Carousel auto-play
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 6000); // Slower transition for luxury feel
-
+    }, 6000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -82,7 +78,6 @@ const HeroSection: React.FC = () => {
 
   return (
     <div className="relative h-[92vh] overflow-hidden">
-      {/* Background Slides */}
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -98,12 +93,9 @@ const HeroSection: React.FC = () => {
         />
       ))}
 
-      {/* Enhanced Overlay with multiple layers */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70" />
       <div className="absolute inset-0 backdrop-blur-[1px]" />
-      <div className="absolute inset-0 bg-black/20" /> {/* Additional subtle darkness */}
-
-      {/* Content */}
+      <div className="absolute inset-0 bg-black/20" />
       <div className="relative h-full container mx-auto px-4">
         <div className="flex flex-col items-center justify-center h-full text-center space-y-8 text-white">
           <h1 className="text-6xl md:text-8xl font-bold tracking-tight animate-fade-in drop-shadow-2xl">
@@ -140,7 +132,6 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Enhanced Carousel Controls */}
         <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-4">
           {slides.map((_, index) => (
             <button
@@ -154,7 +145,6 @@ const HeroSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Enhanced Arrow Controls */}
         <button
           onClick={prevSlide}
           className="absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full

@@ -1,4 +1,3 @@
-// src/components/home/FeaturedProducts.tsx
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart, Share2, Eye, ShoppingCart } from 'lucide-react';
 import { Product } from '../../types/interfaces';
@@ -38,7 +37,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
 
   return (
     <section className="py-16 px-4 md:px-8 max-w-[1400px] mx-auto">
-      {/* Header */}
       <div className="text-center mb-12">
         <h3 className="text-blue-600 font-medium tracking-wider uppercase text-sm mb-2">
           OUR COLLECTION
@@ -49,7 +47,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
         </p>
       </div>
 
-      {/* Categories */}
       <div className="flex justify-center gap-4 mb-12">
         {categories.map((category) => (
           <button
@@ -66,7 +63,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
         ))}
       </div>
 
-      {/* Products Section */}
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
@@ -75,7 +71,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
         <div className="text-center text-red-600 py-8">{error}</div>
       ) : (
         <div className="relative">
-          {/* Navigation Buttons */}
           <button
             onClick={() => scrollContainer('left')}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 p-3 rounded-full
@@ -91,7 +86,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
             <ChevronRight className="w-6 h-6" />
           </button>
 
-          {/* Products Container */}
           <div
             id="products-container"
             className="flex overflow-x-auto gap-8 pb-6 scroll-smooth hide-scrollbar"
@@ -105,9 +99,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
               >
                 <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl 
                               transition-all duration-300 transform hover:-translate-y-1">
-                  {/* Product Image Container */}
                   <div className="relative h-[320px] group">
-                    {/* Main Image */}
                     <img
                       src={product.thumbnail}
                       alt={product.title}
@@ -115,7 +107,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                                group-hover:scale-110"
                     />
                     
-                    {/* Overlay with Quick Actions */}
                     <div className={`absolute inset-0 bg-black/40 flex items-center justify-center
                                   transition-opacity duration-300
                                   ${hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'}`}>
@@ -135,7 +126,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                     </div>
                   </div>
 
-                  {/* Product Info */}
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-1">
@@ -168,7 +158,6 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
             ))}
           </div>
 
-          {/* Carousel Indicators */}
           <div className="flex justify-center gap-2 mt-8">
             {Array.from({ length: Math.ceil(filteredProducts.length / 4) }).map((_, idx) => (
               <button

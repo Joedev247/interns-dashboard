@@ -1,4 +1,3 @@
-// src/components/home/CategoriesSection.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -79,7 +78,6 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({ categories }) => 
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4 max-w-7xl">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <span className="bg-blue-100 text-blue-800 text-sm font-medium px-4 py-1.5 rounded-full inline-block mb-4">
             Our Categories
@@ -93,7 +91,6 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({ categories }) => 
           </p>
         </div>
 
-        {/* Featured Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {featuredCategories.map((category, index) => (
             <Link
@@ -124,7 +121,6 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({ categories }) => 
           ))}
         </div>
 
-        {/* All Categories Grid */}
         <div className="bg-white rounded-3xl shadow-lg p-8 border border-gray-100">
           <div className="flex justify-between items-center mb-8">
             <h3 className="text-2xl font-bold text-gray-900">
@@ -161,7 +157,6 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({ categories }) => 
           </div>
         </div>
 
-        {/* Category Benefits */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-20">
           {[
             {

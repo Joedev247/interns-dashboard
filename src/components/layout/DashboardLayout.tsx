@@ -81,7 +81,6 @@ const DashboardLayout: React.FC = () => {
     <ProtectedRoute>
 
       <div className="h-screen flex overflow-hidden">
-        {/* Sidebar */}
         <Sidebar
           collapsed={collapsed}
           className={cn(
@@ -90,7 +89,6 @@ const DashboardLayout: React.FC = () => {
           )}
         >
           <div className="flex flex-col h-full">
-            {/* Logo */}
             <div className="h-16 flex items-center justify-between px-4 border-b">
               {!collapsed && (
                 <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
@@ -105,7 +103,6 @@ const DashboardLayout: React.FC = () => {
               </button>
             </div>
 
-            {/* Navigation */}
             <div className="flex-1">
               <Menu>
                 {navItems.map((item) => (
@@ -125,14 +122,12 @@ const DashboardLayout: React.FC = () => {
               </Menu>
             </div>
 
-            {/* Logout Button */}
             <div className="border-t">
               <Menu>
                 <MenuItem
                   icon={<LogOut size={20} />}
                   className="text-red-600 hover:bg-red-50 cursor-pointer"
                   onClick={() => {
-                    // Add logout logic here
                     logout();
                     console.log('Logout clicked');
                   }}
@@ -144,9 +139,7 @@ const DashboardLayout: React.FC = () => {
           </div>
         </Sidebar>
 
-        {/* Main Content Area */}
         <div className="flex-1 flex flex-col h-screen">
-          {/* Fixed Header */}
           <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10">
         <h1 className="text-xl font-semibold text-gray-800">
           {currentItem.title}
@@ -175,7 +168,6 @@ const DashboardLayout: React.FC = () => {
         </div>
       </header>
 
-          {/* Scrollable Content Area */}
           <main className="flex-1 overflow-auto bg-gray-50">
             <div className="p-6">
               {currentItem.component}

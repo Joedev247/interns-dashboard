@@ -1,4 +1,3 @@
-// src/types/interfaces.ts
 export interface Product {
     id: number;
     title: string;
@@ -8,7 +7,6 @@ export interface Product {
     thumbnail: string;
     stock?: number;
     description?: string;
-    // Add any other properties your API returns
   }
   
   export interface Category {

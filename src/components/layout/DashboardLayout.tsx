@@ -80,7 +80,7 @@ const DashboardLayout: React.FC = () => {
   return (
     <ProtectedRoute>
 
-      <div className="h-screen flex overflow-hidden">
+      <div className="h-screen max-width-auto px-20 flex overflow-hidden">
         <Sidebar
           collapsed={collapsed}
           className={cn(

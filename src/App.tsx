@@ -8,7 +8,9 @@ import ProductDetails from './pages/ProductDetails';
 import Checkout from './pages/Checkout';
 import Payment from './pages/Payment';
 import DashboardLayout from './components/layout/DashboardLayout';
+import NotFound from './components/NotFound';
 import { CartProvider } from './contexts/CartContext';
+
 
 const App = () => {
   return (
@@ -17,7 +19,9 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/products" element={<Products onProductSelect={function (id: number): void {
+            throw new Error('Function not implemented.');
+          } } />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/products/:id" element={<ProductDetails productId={0} onBack={function (): void {
@@ -27,6 +31,8 @@ const App = () => {
           <Route path="/payment" element={<Payment />} />
 
           <Route path="/dashboard" element={<DashboardLayout />} />
+          <Route path="*" element={<NotFound />} />
+
         </Routes>
       </Router>
     </CartProvider>

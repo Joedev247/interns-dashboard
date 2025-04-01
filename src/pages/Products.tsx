@@ -5,8 +5,11 @@ import { Eye, ShoppingCart, Heart, Star } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { toast, Toaster } from 'react-hot-toast';
 
-const Products = () => {
-  const navigate = useNavigate();
+interface ProductsProps {
+  onProductSelect: (id: number) => void;
+}
+
+export const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -73,7 +73,7 @@ const DashboardLayout: React.FC = () => {
     { id: 'users', title: 'Users', icon: <User size={20} />, component: <UsersContent /> },
     { id: 'settings', title: 'Settings', icon: <Set size={20} />, component: <SettingsContent /> },
     { id: 'checkout', title: 'Checkout', icon: <ShoppingCart size={20} />, component: <Checkout /> },
-  ];  const [activeItem, setActiveItem] = useState(navItems[0].id);
+  ]; const [activeItem, setActiveItem] = useState(navItems[0].id);
 
   const currentItem = navItems.find(item => item.id === activeItem) || navItems[0];
 
@@ -140,34 +140,6 @@ const DashboardLayout: React.FC = () => {
         </Sidebar>
 
         <div className="flex-1 flex flex-col h-screen">
-          <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10">
-        <h1 className="text-xl font-semibold text-gray-800">
-          {currentItem.title}
-        </h1>
-        <div className="flex items-center space-x-4">
-          <button 
-            className="p-2 hover:bg-gray-100 rounded-lg relative transition-colors"
-            onClick={() => setActiveItem('checkout')}
-          >
-            <ShoppingCart size={20} className="text-gray-600" />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 text-white rounded-full text-xs flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
-          </button>
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 flex items-center justify-center text-white font-medium">
-              {user?.username.charAt(0).toUpperCase()}
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium">{user?.username}</p>
-              <p className="text-xs text-gray-500">{user?.email}</p>
-            </div>
-          </div>
-        </div>
-      </header>
-
           <main className="flex-1 overflow-auto bg-gray-50">
             <div className="p-6">
               {currentItem.component}

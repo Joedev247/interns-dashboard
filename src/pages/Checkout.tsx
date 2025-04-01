@@ -1,81 +1,301 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../contexts/CartContext';
-import { Trash2, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { toast, Toaster } from 'react-hot-toast';
+import { Lock } from 'lucide-react';
 
 const Checkout: React.FC = () => {
-  const { cartItems, removeFromCart, getCartTotal } = useCart();
+  const { cartItems, getCartTotal } = useCart();
   const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
+    company: '',
+    address: '',
+    apartment: '',
+    city: '',
+    zipCode: '',
+    phone: '',
+    saveInfo: false,
+    country: 'United States (+1)'
+  });
 
-  const handleProceedToPayment = () => {
-    navigate('/payment');
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      toast.error('Your cart is empty');
+      navigate('/products');
+    }
+  }, [cartItems, navigate]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target as HTMLInputElement;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.email || !formData.firstName || !formData.lastName || !formData.address || !formData.city || !formData.zipCode) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      navigate('/payment', { 
+        state: { 
+          fromCheckout: true,
+          formData,
+          total: getCartTotal()
+        }
+      });
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.');
+      setIsProcessing(false);
+    }
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Checkout</h2>
-      
-      {cartItems.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-600">Your cart is empty</p>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {/* Cart Items */}
-          <div className="bg-white rounded-xl shadow-sm">
-            {cartItems.map((item) => (
-              <div key={item.id} className="flex items-center p-4 border-b last:border-b-0">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-20 h-20 object-cover rounded-lg"
-                />
-                <div className="flex-1 ml-4">
-                  <h3 className="font-semibold">{item.title}</h3>
-                  <div className="flex items-center justify-between mt-2">
-                    <div className="text-gray-600">
-                      ${item.price} × {item.quantity}
-                    </div>
-                    <div className="font-semibold">${(item.price * item.quantity).toFixed(2)}</div>
-                  </div>
-                </div>
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="ml-4 p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                >
-                  <Trash2 size={20} />
-                </button>
-              </div>
-            ))}
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-7 space-y-8">
+          <h1 className="text-2xl font-medium">Checkout</h1>
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
-                <span>${getCartTotal().toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Shipping</span>
-                <span>Free</span>
-              </div>
-              <div className="border-t pt-2 mt-2">
-                <div className="flex justify-between font-semibold">
-                  <span>Total</span>
-                  <span>${getCartTotal().toFixed(2)}</span>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-medium mb-4">Contact</h2>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="Email"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-medium mb-4">Delivery</h2>
+              <div className="space-y-4">
+                <select
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="United States (+1)">United States (+1)</option>
+                  <option value="Canada (+1)">Canada (+1)</option>
+                  <option value="United Kingdom (+44)">United Kingdom (+44)</option>
+                  <option value="Australia (+61)">Australia (+61)</option>
+                </select>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    placeholder="First name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    placeholder="Last name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                </div>
+
+                <input
+                  type="text"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                  placeholder="Company (optional)"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  placeholder="Address"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+
+                <input
+                  type="text"
+                  name="apartment"
+                  value={formData.apartment}
+                  onChange={handleInputChange}
+                  placeholder="Apartment, suite, etc."
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    placeholder="City"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="zipCode"
+                    value={formData.zipCode}
+                    onChange={handleInputChange}
+                    placeholder="ZIP code"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                </div>
+
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Phone"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="saveInfo"
+                    checked={formData.saveInfo}
+                    onChange={handleInputChange}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label className="ml-2 text-sm text-gray-600">
+                    Save this information for next time
+                  </label>
                 </div>
               </div>
             </div>
-            <button
-              onClick={handleProceedToPayment}
-              className="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-violet-700 transition-colors flex items-center justify-center"
-            >
-              Proceed to Payment <ArrowRight size={20} className="ml-2" />
-            </button>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h2 className="text-lg font-medium mb-4">Shipping method</h2>
+              <p className="text-gray-600 text-sm">
+                Enter your shipping address to view available shipping methods.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-medium">Payment</h2>
+                <div className="flex items-center text-sm text-gray-600">
+                  <Lock className="w-4 h-4 mr-2" />
+                  All transactions are secure and encrypted
+                </div>
+              </div>
+              <p className="text-gray-600 text-sm">
+                After clicking "Complete order", you will be redirected to the payment page.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <button
+                type="submit"
+                disabled={isProcessing}
+                className={`w-full bg-blue-600 text-white py-4 rounded-lg font-medium 
+                  hover:bg-blue-700 transition-colors flex items-center justify-center
+                  ${isProcessing ? 'opacity-75 cursor-not-allowed' : ''}`}
+              >
+                {isProcessing ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
+                    <span>Processing...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <span>Complete Order</span>
+                    {cartItems.length > 0 && (
+                      <span className="text-sm">
+                        (${getCartTotal().toFixed(2)})
+                      </span>
+                    )}
+                  </div>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => navigate('/cart')}
+                className="w-full text-gray-600 py-2 text-sm hover:text-gray-800 transition-colors"
+              >
+                Return to cart
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="lg:col-span-5">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h2 className="text-lg font-medium mb-4">Order summary</h2>
+            <div className="space-y-4">
+              {cartItems.map((item) => (
+                <div key={item.id} className="flex items-start space-x-4">
+                  <div className="relative">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-16 h-16 object-cover rounded-lg"
+                    />
+                    <span className="absolute -top-2 -right-2 bg-gray-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                      {item.quantity}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium">{item.title}</h3>
+                    <p className="text-sm text-gray-600">Size: default</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                  </div>
+                </div>
+              ))}
+
+              <div className="border-t pt-4 mt-4">
+                <div className="flex justify-between mb-2">
+                  <span className="text-gray-600">Subtotal</span>
+                  <span className="font-medium">${getCartTotal().toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Shipping</span>
+                  <span className="text-gray-600">Enter shipping address</span>
+                </div>
+              </div>
+
+              <div className="border-t pt-4 mt-4">
+                <div className="flex justify-between">
+                  <span className="font-medium">Total</span>
+                  <span className="font-medium">USD ${getCartTotal().toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

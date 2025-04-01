@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart, Share2, Eye, ShoppingCart } from 'lucide-react';
 import { Product } from '../../types/interfaces';
+import { useCart } from '../../contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 interface FeaturedProductsProps {
   products: Product[];
@@ -13,6 +16,8 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
   isLoading,
   error
 }) => {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState('all');
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   
@@ -33,6 +38,32 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
       const scrollAmount = direction === 'left' ? -container.offsetWidth : container.offsetWidth;
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
+  };
+
+  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+    e.stopPropagation();
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      quantity: 1,
+      image: product.thumbnail
+    });
+    toast.success('Added to cart!');
+  };
+
+  const handleProductDetails = (id: number) => {
+    navigate(`/products/${id}`);
+  };
+
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast.success('Added to wishlist!');
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast.success('Product link copied!');
   };
 
   return (
@@ -111,17 +142,27 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                                   transition-opacity duration-300
                                   ${hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'}`}>
                       <div className="flex gap-3">
-                        {['quick-view', 'wishlist', 'share'].map((action, index) => (
-                          <button
-                            key={action}
-                            className="bg-white/90 p-3 rounded-full hover:bg-blue-600 hover:text-white
-                                     transition-all duration-300 transform hover:scale-110"
-                          >
-                            {index === 0 && <Eye className="w-5 h-5" />}
-                            {index === 1 && <Heart className="w-5 h-5" />}
-                            {index === 2 && <Share2 className="w-5 h-5" />}
-                          </button>
-                        ))}
+                        <button
+                          onClick={() => handleProductDetails(product.id)}
+                          className="bg-white/90 p-3 rounded-full hover:bg-blue-600 hover:text-white
+                                   transition-all duration-300 transform hover:scale-110"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={(e) => handleWishlist(e)}
+                          className="bg-white/90 p-3 rounded-full hover:bg-blue-600 hover:text-white
+                                   transition-all duration-300 transform hover:scale-110"
+                        >
+                          <Heart className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={(e) => handleShare(e)}
+                          className="bg-white/90 p-3 rounded-full hover:bg-blue-600 hover:text-white
+                                   transition-all duration-300 transform hover:scale-110"
+                        >
+                          <Share2 className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -137,7 +178,11 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                       </span>
                     </div>
                     
-                    <h3 className="font-semibold text-gray-900 mb-2 text-lg truncate">
+                    <h3 
+                      className="font-semibold text-gray-900 mb-2 text-lg truncate cursor-pointer
+                               hover:text-blue-600 transition-colors"
+                      onClick={() => handleProductDetails(product.id)}
+                    >
                       {product.title}
                     </h3>
                     
@@ -145,9 +190,12 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                       <span className="text-xl font-bold text-gray-900">
                         ${product.price.toFixed(2)}
                       </span>
-                      <button className="bg-blue-600 text-white px-5 py-2.5 
-                                     hover:bg-blue-700 transition-all duration-300
-                                     flex items-center gap-2 font-medium">
+                      <button 
+                        onClick={(e) => handleAddToCart(e, product)}
+                        className="bg-blue-600 text-white px-5 py-2.5 
+                                 hover:bg-blue-700 transition-all duration-300
+                                 flex items-center gap-2 font-medium rounded-lg"
+                      >
                         <ShoppingCart className="w-4 h-4" />
                         <span>Add to Cart</span>
                       </button>

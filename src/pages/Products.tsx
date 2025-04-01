@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Eye, ShoppingCart, Heart } from 'lucide-react';
+import { Eye, ShoppingCart, Heart, Star } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
-
-interface Category {
-  name: string;
-  icon: string;
-  itemCount: number;
-}
+import { toast, Toaster } from 'react-hot-toast';
 
 const Products = () => {
   const navigate = useNavigate();
@@ -17,19 +12,8 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [categories, setCategories] = useState<Category[]>([
-    { name: 'Skincare', icon: '🌟', itemCount: 20 },
-    { name: 'Haircare', icon: '💇', itemCount: 85 },
-    { name: 'Makeup', icon: '💄', itemCount: 150 },
-    { name: 'Tools', icon: '🛠️', itemCount: 45 },
-    { name: 'Fragrance', icon: '🌸', itemCount: 50 },
-    { name: 'Body Care', icon: '🧴', itemCount: 65 },
-    { name: 'Natural', icon: '🌿', itemCount: 55 },
-    { name: 'Organic', icon: '🌱', itemCount: 40 },
-    { name: 'Vegan', icon: '🌾', itemCount: 35 },
-    { name: 'Luxury', icon: '✨', itemCount: 25 },
-  ]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -50,7 +34,8 @@ const Products = () => {
     navigate(`/products/${id}`);
   };
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (e: React.MouseEvent, product: any) => {
+    e.stopPropagation();
     addToCart({
       id: product.id,
       title: product.title,
@@ -58,6 +43,12 @@ const Products = () => {
       quantity: 1,
       image: product.thumbnail
     });
+    toast.success('Added to cart!');
+  };
+
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast.success('Added to wishlist!');
   };
 
   const filteredProducts = products
@@ -76,119 +67,128 @@ const Products = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-violet-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-600"></div>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex gap-8">
-        <div className="w-64 flex-shrink-0">
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h2 className="text-xl font-semibold mb-4">Filters</h2>
-            <p className="text-sm text-gray-500 mb-6">Refine your search</p>
-            
-            <div className="mb-6">
-              <h3 className="font-medium mb-3">Categories</h3>
-              {categories.map((category) => (
-                <div
-                  key={category.name}
-                  className="flex items-center justify-between py-2 cursor-pointer hover:bg-gray-50"
-                  onClick={() => setSelectedCategory(category.name.toLowerCase())}
-                >
-                  <div className="flex items-center gap-2">
-                    <span>{category.icon}</span>
-                    <span className="text-sm">{category.name}</span>
-                  </div>
-                  <span className="text-xs text-gray-500">{category.itemCount} items</span>
-                </div>
-              ))}
-            </div>
-
-            <button
-              onClick={() => setSelectedCategory('all')}
-              className="w-full py-2 px-4 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-            >
-              Reset Filters
-            </button>
+      <Toaster position="top-center" reverseOrder={false} />
+      
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold mb-4">Our Products</h1>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search products, brands, and categories..."
+            className="w-full p-4 border rounded-lg bg-white shadow-sm focus:ring-2 
+              focus:ring-blue-500 focus:border-transparent transition-all"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+            Press Enter to search
           </div>
-        </div>
-
-        <div className="flex-1">
-          <div className="mb-8">
-            <input
-              type="text"
-              placeholder="Search products, brands, and categories..."
-              className="w-full p-3 border rounded-lg bg-gray-50"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentProducts.map((product: any) => (
-              <div key={product.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
-                <div className="relative">
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute top-2 right-2 flex gap-2">
-                    <button className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100">
-                      <Heart size={20} className="text-gray-600" />
-                    </button>
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100"
-                    >
-                      <ShoppingCart size={20} className="text-gray-600" />
-                    </button>
-                    <button
-                      onClick={() => handleProductDetails(product.id)}
-                      className="p-2 bg-blue-600 rounded-full shadow-md"
-                    >
-                      <Eye size={20} className="text-white" />
-                    </button>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="text-sm text-gray-500 mb-1">
-                    {product.category.charAt(0).toUpperCase() + product.category.slice(1)} - {product.brand}
-                  </div>
-                  <h3 className="font-medium mb-2">{product.title}</h3>
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold">${product.price}</span>
-                    <div className="flex items-center">
-                      <span className="text-yellow-400">★</span>
-                      <span className="text-sm ml-1">{product.rating}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {totalPages > 1 && (
-            <div className="flex justify-center space-x-2 mt-8">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-4 py-2 rounded-lg ${
-                    currentPage === page
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {currentProducts.map((product: any) => (
+          <div
+            key={product.id}
+            className="group relative bg-white rounded-xl shadow-sm overflow-hidden 
+              transform transition-all duration-300 hover:shadow-lg cursor-pointer"
+            onClick={() => handleProductDetails(product.id)}
+            onMouseEnter={() => setHoveredProduct(product.id)}
+            onMouseLeave={() => setHoveredProduct(null)}
+          >
+            <div className="relative aspect-[4/3] overflow-hidden">
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+                className="w-full h-full object-cover transform transition-transform duration-500 
+                  group-hover:scale-110"
+              />
+
+              <div className={`absolute inset-0 bg-black bg-opacity-40 flex items-center 
+                justify-center gap-4 transition-opacity duration-300 
+                ${hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'}`}>
+                <button
+                  onClick={(e) => handleWishlist(e)}
+                  className="p-3 bg-white rounded-full transform transition-transform duration-300 
+                    hover:scale-110 hover:bg-gray-100"
+                >
+                  <Heart size={20} className="text-gray-700" />
+                </button>
+                <button
+                  onClick={(e) => handleAddToCart(e, product)}
+                  className="p-3 bg-white rounded-full transform transition-transform duration-300 
+                    hover:scale-110 hover:bg-gray-100"
+                >
+                  <ShoppingCart size={20} className="text-gray-700" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleProductDetails(product.id);
+                  }}
+                  className="p-3 bg-blue-600 rounded-full transform transition-transform duration-300 
+                    hover:scale-110 hover:bg-blue-700"
+                >
+                  <Eye size={20} className="text-white" />
+                </button>
+              </div>
+
+              {product.discountPercentage > 0 && (
+                <div className="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded-md 
+                  text-sm font-medium">
+                  -{Math.round(product.discountPercentage)}%
+                </div>
+              )}
+            </div>
+
+            <div className="p-4">
+              <div className="text-sm text-gray-500 mb-1 capitalize">
+                {product.category} - {product.brand}
+              </div>
+              <h3 className="font-medium text-gray-900 mb-2 line-clamp-1">{product.title}</h3>
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col">
+                  <span className="text-lg font-bold text-blue-600">${product.price}</span>
+                  {product.discountPercentage > 0 && (
+                    <span className="text-sm text-gray-500 line-through">
+                      ${Math.round(product.price * (1 + product.discountPercentage / 100))}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center bg-gray-100 px-2 py-1 rounded-full">
+                  <Star size={16} className="text-yellow-400 fill-current" />
+                  <span className="text-sm ml-1 font-medium">{product.rating}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-center space-x-2 mt-8">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                currentPage === page
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-white text-gray-800 hover:bg-gray-100'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, LogIn, ShoppingCart } from 'lucide-react';
+import { ShoppingBag, Menu, X, LogIn, ShoppingCart, LogOut, ChevronDown } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
+import { useAuth } from '../../contexts/AuthContext';
 import TopBar from './TopBar';
 
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
   const { cartItems } = useCart();
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const location = useLocation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +23,22 @@ const Navbar: React.FC<NavbarProps> = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    setShowDropdown(false);
+  };
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -66,13 +86,46 @@ const Navbar: React.FC<NavbarProps> = () => {
                   </Link>
                 ))}
 
-                <Link
-                  to="/login"
-                  className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded transition-colors"
-                >
-                  <LogIn className="w-4 h-4" />
-                  <span className="text-sm font-medium">Login</span>
-                </Link>
+                {user ? (
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setShowDropdown(!showDropdown)}
+                      className="flex items-center space-x-2 hover:opacity-80 transition-opacity focus:outline-none"
+                    >
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium">
+                          {user.username.charAt(0).toUpperCase()}
+                        </div>
+                        <span className="ml-2 text-sm font-medium text-gray-700">{user.username}</span>
+                        <ChevronDown className="w-4 h-4 ml-1 text-gray-600" />
+                      </div>
+                    </button>
+
+                    {showDropdown && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50 border border-gray-100">
+                        <div className="px-4 py-2 border-b border-gray-100">
+                          <div className="text-sm font-medium text-gray-900">Signed in as</div>
+                          <div className="text-sm text-gray-600 truncate">{user.email}</div>
+                        </div>
+                        <button
+                          onClick={handleLogout}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2 transition-colors"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          <span>Sign out</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded transition-colors"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    <span className="text-sm font-medium">Login</span>
+                  </Link>
+                )}
                 
                 <Link to="/cart" className="relative group">
                   <div className="p-2 rounded-lg group-hover:bg-gray-100 transition-colors">
@@ -118,18 +171,45 @@ const Navbar: React.FC<NavbarProps> = () => {
                     {item.name}
                   </Link>
                 ))}
-                <Link
-                  to="/login"
-                  className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Login
-                </Link>
+                {user ? (
+                  <>
+                    <div className="px-4 py-2.5 text-sm font-medium text-gray-700">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                          {user.username.charAt(0).toUpperCase()}
+                        </div>
+                        <span>{user.username}</span>
+                      </div>
+                      <div className="mt-1 text-sm text-gray-600 truncate">
+                        {user.email}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span>Sign out</span>
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                )}
               </div>
             </div>
           </div>
         </nav>
       </div>
+      <div className="h-[calc(64px+32px)]"></div>
     </div>
   );
 };

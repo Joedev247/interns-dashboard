@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -34,7 +33,13 @@ const Login: React.FC = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      login(data);
+      login({
+        id: data.id,
+        username: data.username,
+        email: data.email,
+        token: data.token
+      });
+      
       navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Invalid credentials');
@@ -62,7 +67,7 @@ const Login: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                Email
+                Username
               </label>
               <div className="relative">
                 <input
@@ -71,14 +76,13 @@ const Login: React.FC = () => {
                   type="text"
                   required
                   className="block w-full rounded-md border border-gray-200 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                  placeholder="you@example.com"
+                  placeholder="Enter your username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
 
-            {/* Password Field */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
@@ -111,7 +115,6 @@ const Login: React.FC = () => {
               <div className="text-red-500 text-sm text-center">{error}</div>
             )}
 
-            {/* Sign In Button */}
             <button
               type="submit"
               disabled={loading}
@@ -120,7 +123,6 @@ const Login: React.FC = () => {
               {loading ? "Signing in..." : "Sign in →"}
             </button>
 
-            {/* Or continue with */}
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -132,7 +134,6 @@ const Login: React.FC = () => {
               </div>
             </div>
 
-            {/* Sign Up Link */}
             <div className="text-center text-sm text-gray-500">
               Don't have an account?{' '}
               <Link to="/signup" className="font-semibold text-blue-600 hover:text-blue-500">

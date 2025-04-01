@@ -6,6 +6,7 @@ import Cart from './pages/Cart';
 import Login from './pages/Login';
 import ProductDetails from './pages/ProductDetails';
 import Checkout from './pages/Checkout';
+import Payment from './pages/Payment';
 import DashboardLayout from './components/layout/DashboardLayout';
 import { CartProvider } from './contexts/CartContext';
 
@@ -23,6 +24,8 @@ const App = () => {
             throw new Error('Function not implemented.');
           } } />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
+
           <Route path="/dashboard" element={<DashboardLayout />} />
         </Routes>
       </Router>

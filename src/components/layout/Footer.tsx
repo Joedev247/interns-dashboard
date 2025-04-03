@@ -18,36 +18,36 @@ import {
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
-    company: [
-      { name: 'About Us', href: '/' },
-      { name: 'Careers', href: '/' },
-      { name: 'Store Locations', href: '/' },
-      { name: 'Our Blog', href: '/' },
-      { name: 'Press & Media', href: '/' }
-    ],
-    customerService: [
-      { name: 'Contact Us', href: '/' },
-      { name: 'Shipping & Returns', href: '/' },
-      { name: 'FAQ', href: '/' },
-      { name: 'Size Guide', href: '/' },
-      { name: 'Track Order', href: '/' }
-    ],
-    quickLinks: [
-      { name: 'New Arrivals', href: '/' },
-      { name: 'Best Sellers', href: '/' },
-      { name: 'Sale', href: '/' },
-      { name: 'Gift Cards', href: '/' },
-      { name: 'Rewards Program', href: '/' }
-    ]
-  };
+  // const footerLinks = {
+  //   company: [
+  //     { name: 'About Us', href: '/' },
+  //     { name: 'Careers', href: '/' },
+  //     { name: 'Store Locations', href: '/' },
+  //     { name: 'Our Blog', href: '/' },
+  //     { name: 'Press & Media', href: '/' }
+  //   ],
+  //   customerService: [
+  //     { name: 'Contact Us', href: '/' },
+  //     { name: 'Shipping & Returns', href: '/' },
+  //     { name: 'FAQ', href: '/' },
+  //     { name: 'Size Guide', href: '/' },
+  //     { name: 'Track Order', href: '/' }
+  //   ],
+  //   quickLinks: [
+  //     { name: 'New Arrivals', href: '/' },
+  //     { name: 'Best Sellers', href: '/' },
+  //     { name: 'Sale', href: '/' },
+  //     { name: 'Gift Cards', href: '/' },
+  //     { name: 'Rewards Program', href: '/' }
+  //   ]
+  // };
 
-  const socialLinks = [
-    { Icon: Facebook, href: '#', label: 'Facebook', color: '#1877F2' },
-    { Icon: Twitter, href: '#', label: 'Twitter', color: '#1DA1F2' },
-    { Icon: Instagram, href: '#', label: 'Instagram', color: '#E4405F' },
-    { Icon: Youtube, href: '#', label: 'Youtube', color: '#FF0000' }
-  ];
+  // const socialLinks = [
+  //   { Icon: Facebook, href: '#', label: 'Facebook', color: '#1877F2' },
+  //   { Icon: Twitter, href: '#', label: 'Twitter', color: '#1DA1F2' },
+  //   { Icon: Instagram, href: '#', label: 'Instagram', color: '#E4405F' },
+  //   { Icon: Youtube, href: '#', label: 'Youtube', color: '#FF0000' }
+  // ];
 
   const features = [
     { Icon: Truck, title: 'Free Shipping', description: 'On orders over $50' },
@@ -56,11 +56,11 @@ const Footer: React.FC = () => {
     { Icon: CreditCard, title: 'Easy Returns', description: '30-day returns' }
   ];
 
-  const contactInfo = [
-    { Icon: Phone, text: '(+237) 6 54-58-34-54', href: 'tel:(+237) 658543454' },
-    { Icon: Mail, text: 'support@stylestore.com', href: 'mailto:support@stylestore.com' },
-    { Icon: MapPin, text: '237 Fashion Street, Douala', href: 'https://maps.google.com' }
-  ];
+  // const contactInfo = [
+  //   { Icon: Phone, text: '(+237) 6 54-58-34-54', href: 'tel:(+237) 658543454' },
+  //   { Icon: Mail, text: 'support@stylestore.com', href: 'mailto:support@stylestore.com' },
+  //   { Icon: MapPin, text: '237 Fashion Street, Douala', href: 'https://maps.google.com' }
+  // ];
 
   return (
     <footer>
@@ -109,7 +109,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
     </footer>
   );
 };

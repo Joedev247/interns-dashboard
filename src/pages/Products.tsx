@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Eye, ShoppingCart, Heart, Star } from 'lucide-react';
+import { Eye, ShoppingCart, Heart, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { toast, Toaster } from 'react-hot-toast';
 
@@ -9,7 +9,8 @@ interface ProductsProps {
   onProductSelect: (id: number) => void;
 }
 
-export const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {  const navigate = useNavigate();
+export const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {
+  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,6 +68,18 @@ export const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {  con
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
@@ -80,7 +93,7 @@ export const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {  con
       <Toaster position="top-center" reverseOrder={false} />
       
       <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-4">Our Products</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-900">Our Products</h1>
         <div className="relative">
           <input
             type="text"
@@ -100,8 +113,8 @@ export const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {  con
         {currentProducts.map((product: any) => (
           <div
             key={product.id}
-            className="group relative bg-white rounded-xl shadow-sm overflow-hidden 
-              transform transition-all duration-300 hover:shadow-lg cursor-pointer"
+            className="group relative bg-white rounded-xl shadow-md overflow-hidden 
+              transform transition-all duration-300 hover:shadow-xl cursor-pointer"
             onClick={() => handleProductDetails(product.id)}
             onMouseEnter={() => setHoveredProduct(product.id)}
             onMouseLeave={() => setHoveredProduct(null)}
@@ -176,24 +189,51 @@ export const Products: React.FC<ProductsProps> = ({ onProductSelect }) => {  con
       </div>
 
       {totalPages > 1 && (
-        <div className="flex justify-center space-x-2 mt-8">
+        <div className="flex justify-center items-center space-x-2 mt-8">
+          <button
+            onClick={handlePrevPage}
+            className={`px-4 py-2 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 
+              transition-colors duration-200 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
-                currentPage === page
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-white text-gray-800 hover:bg-gray-100'
-              }`}
+              className={`px-4 py-2 rounded transition-colors duration-200 
+                ${currentPage === page
+                  ? 'text-blue-600 font-semibold'
+                  : 'text-gray-600 hover:bg-gray-100'
+                }`}
             >
               {page}
             </button>
           ))}
+
+          <button
+            onClick={handleNextPage}
+            className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 
+              transition-colors duration-200 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
         </div>
       )}
     </div>
   );
 };
 
+function useState<T>(initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const state = React.useState(initialValue);
+  return state;
+}
+
 export default Products;
+
+// Removed duplicate useEffect implementation
+// Removed duplicate useEffect implementation
+

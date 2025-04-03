@@ -209,7 +209,7 @@ const Navbar: React.FC<NavbarProps> = () => {
           </div>
         </nav>
       </div>
-      <div className="h-[calc(64px+32px)]"></div>
+      <div className="h-[calc(64px+32px)] bg-gray-200"></div>
     </div>
   );
 };

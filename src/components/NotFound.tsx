@@ -28,7 +28,7 @@ const NotFound: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
             <div className="relative">
               {/* Background Pattern */}
-              <div className="absolute inset-0 bg-violet-600 opacity-10">
+              <div className="absolute inset-0 bg-blue-600 opacity-10">
                 <div className="absolute inset-0" 
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
@@ -40,7 +40,7 @@ const NotFound: React.FC = () => {
               <div className="relative p-8 md:p-12">
                 <div className="text-center">
                   {/* 404 Text */}
-                  <h1 className="text-8xl md:text-9xl font-bold text-violet-600 animate-bounce">
+                  <h1 className="text-8xl md:text-9xl font-bold text-blue-600 animate-bounce">
                     404
                   </h1>
                   
@@ -57,14 +57,14 @@ const NotFound: React.FC = () => {
                   {/* Countdown */}
                   <div className="mt-6 text-gray-600">
                     Redirecting to home in{' '}
-                    <span className="text-violet-600 font-semibold">{countdown}</span> seconds
+                    <span className="text-blue-600 font-semibold">{countdown}</span> seconds
                   </div>
 
                   {/* Action Buttons */}
                   <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                     <button
                       onClick={() => navigate('/')}
-                      className="inline-flex items-center justify-center px-6 py-3 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors duration-200 space-x-2 group"
+                      className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 space-x-2 group"
                     >
                       <Home className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
                       <span>Go Home</span>
